@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+// TODO: Make Console.Warning() with yellow color
 namespace DebugManager {
 
     public class Console : MonoBehaviour {
