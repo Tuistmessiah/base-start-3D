@@ -1,8 +1,6 @@
 using UnityEngine;
 
-public class PlayerClickScene : MonoBehaviour
-{
-
+public class PlayerClickScene : MonoBehaviour {
     // > Inputs
     int _mouseLeft = 0, _mouseRight = 1, _mouseMiddle = 2;
 
@@ -21,30 +19,23 @@ public class PlayerClickScene : MonoBehaviour
     public GameObject _BlackHoleExplosionYellow;
     public GameObject _ChargeSphereBlue;
 
-
-    void Start()
-    {
+    void Start() {
         if (!_mainCam) _mainCam = Camera.main;
     }
 
-    void Update()
-    {
+    void Update() {
         CheckInputs();
     }
 
     /** Check mouse inputs and add iterative calls */
-    void CheckInputs()
-    {
-        if (_isGoingToCast)
-        {
+    void CheckInputs() {
+        if (_isGoingToCast) {
 
             // Pressed Left Mouse
-            if (Input.GetMouseButtonDown(_mouseLeft))
-            {
+            if (Input.GetMouseButtonDown(_mouseLeft)) {
                 Ray mouseRay = _mainCam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(mouseRay, out hit, 30f))
-                {
+                if (Physics.Raycast(mouseRay, out hit, 30f)) {
                     switch (_clickLeftIteration)
                     {
                         case 0:
@@ -61,14 +52,11 @@ public class PlayerClickScene : MonoBehaviour
             }
 
             // Pressed Right Mouse
-            if (Input.GetMouseButtonDown(_mouseRight))
-            {
+            if (Input.GetMouseButtonDown(_mouseRight)) {
                 Ray mouseRay = _mainCam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(mouseRay, out hit, 30f))
-                {
-                    switch (_clickRightIteration)
-                    {
+                if (Physics.Raycast(mouseRay, out hit, 30f)) {
+                    switch (_clickRightIteration) {
                         case 0:
                             break;
                         case 1:
@@ -81,14 +69,11 @@ public class PlayerClickScene : MonoBehaviour
             }
 
             // Pressed Middle Mouse
-            if (Input.GetMouseButtonDown(_mouseMiddle))
-            {
+            if (Input.GetMouseButtonDown(_mouseMiddle)) {
                 Ray mouseRay = _mainCam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(mouseRay, out hit, 30f))
-                {
-                    switch (_clickMiddleIteration)
-                    {
+                if (Physics.Raycast(mouseRay, out hit, 30f)) {
+                    switch (_clickMiddleIteration) {
                         case 0:
                             break;
                         case 1:

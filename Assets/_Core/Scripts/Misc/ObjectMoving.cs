@@ -11,7 +11,6 @@ public class ObjectMoving : MonoBehaviour
 
     IEnumerator RunEveryInterval(float _time)
     {
-        Console.Log("RunEveryInterval");
         yield return new WaitForSeconds(_time);
     }
 }

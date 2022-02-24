@@ -63,20 +63,16 @@ namespace BaseCameraControlsWOW
 
         // * Lifecycles
 
-        void Awake()
-        {
+        void Awake() {
             transform.SetParent(null);
         }
 
-        void Start()
-        {
-            if (!this.player)
-            {
+        void Start() {
+            if (!this.player) {
                 Debug.LogWarning("'player' not set in 'CameraController', thus 'PlayerControls' fetched in scene.");
                 this.player = FindObjectOfType<PlayerControls>();
             }
-            if (!mainCam)
-            {
+            if (!mainCam) {
                 Debug.LogWarning("'mainCam' not set in 'CameraController', thus using 'Camera.main'.");
                 this.mainCam = Camera.main;
             }
@@ -88,8 +84,7 @@ namespace BaseCameraControlsWOW
             this.mainCam.transform.position += this.tilt.forward * -this.currentDistance;
         }
 
-        void Update()
-        {
+        void Update() {
             // No button pressed
             if (!Input.GetKey(leftMouse) && !Input.GetKey(rightMouse) && !Input.GetKey(middleMouse)) this.cameraState = CameraState.CameraNone;
             // Left button pressed
@@ -104,15 +99,12 @@ namespace BaseCameraControlsWOW
             CameraInputs();
         }
 
-        void LateUpdate()
-        {
+        void LateUpdate() {
             this.panAngle = Vector3.SignedAngle(transform.forward, this.player.transform.forward, Vector3.up);
 
-            switch (this.cameraMoveState)
-            {
+            switch (this.cameraMoveState) {
                 case CameraMoveState.OnlyWhileMoving:
-                    if (this.player.inputNormalized.magnitude > 0 || this.player.rotation != 0)
-                    {
+                    if (this.player.inputNormalized.magnitude > 0 || this.player.rotation != 0) {
                         CameraHorizontalAdjust();
                         CameraVerticalAdjust();
                     }
@@ -134,8 +126,7 @@ namespace BaseCameraControlsWOW
 
         // * Methods
 
-        void CameraClipInfo()
-        {
+        void CameraClipInfo() {
             this.camClip = new Vector3[4];
 
             this.mainCam.CalculateFrustumCorners(new Rect(0, 0, 1, 1), this.mainCam.nearClipPlane, Camera.MonoOrStereoscopicEye.Mono, this.camClip);
@@ -150,8 +141,7 @@ namespace BaseCameraControlsWOW
         }
 
         /** */
-        void CameraCollision()
-        {
+        void CameraCollision() {
             float camDistance = this.currentDistance + this.collisionCushion;
 
             // > Get Clipping points
@@ -175,31 +165,26 @@ namespace BaseCameraControlsWOW
             float rayX = this.rayGridX - 1;
             float rayY = this.rayGridY - 1;
 
-            for (int x = 0; x < this.rayGridX; x++)
-            {
+            for (int x = 0; x < this.rayGridX; x++) {
                 Vector3 CU_Point = Vector3.Lerp(this.clipDirection[1], this.clipDirection[2], x / rayX);
                 Vector3 CL_Point = Vector3.Lerp(this.clipDirection[0], this.clipDirection[3], x / rayX);
 
                 Vector3 PU_Point = Vector3.Lerp(this.playerClip[1], this.playerClip[2], x / rayX);
                 Vector3 PL_Point = Vector3.Lerp(this.playerClip[0], this.playerClip[3], x / rayX);
 
-                for (int y = 0; y < this.rayGridY; y++)
-                {
+                for (int y = 0; y < this.rayGridY; y++) {
                     this.camRay.origin = Vector3.Lerp(PU_Point, PL_Point, y / rayY);
                     this.camRay.direction = Vector3.Lerp(CU_Point, CL_Point, y / rayY);
                     this.rayColOrigin[currentRay] = this.camRay.origin;
 
-                    if (Physics.Raycast(this.camRay, out this.camRayHit, camDistance, this.collisionMask))
-                    {
+                    if (Physics.Raycast(this.camRay, out this.camRayHit, camDistance, this.collisionMask)) {
                         isColliding = true;
                         this.rayColHit[currentRay] = true;
                         this.rayColPoint[currentRay] = this.camRayHit.point;
 
                         Debug.DrawLine(this.camRay.origin, this.camRayHit.point, Color.cyan);
                         Debug.DrawLine(this.camRayHit.point, this.camRay.origin + this.camRay.direction * camDistance, Color.red);
-                    }
-                    else
-                    {
+                    } else {
                         Debug.DrawLine(this.camRay.origin, this.camRay.origin + this.camRay.direction * camDistance, Color.cyan);
                     }
 
@@ -208,18 +193,14 @@ namespace BaseCameraControlsWOW
             }
 
             // > Collision
-            if (isColliding)
-            {
+            if (isColliding) {
                 currentRay = 0;
                 float minRayDistance = float.MaxValue;
 
-                for (int i = 0; i < this.rayColHit.Length; i++)
-                {
-                    if (this.rayColHit[i])
-                    {
+                for (int i = 0; i < this.rayColHit.Length; i++) {
+                    if (this.rayColHit[i]) {
                         float colDistance = Vector3.Distance(this.rayColOrigin[i], this.rayColPoint[i]);
-                        if (colDistance < minRayDistance)
-                        {
+                        if (colDistance < minRayDistance) {
                             minRayDistance = colDistance;
                             currentRay = i;
                         }
@@ -230,32 +211,24 @@ namespace BaseCameraControlsWOW
                 this.adjustedDistance = Vector3.Dot(-this.mainCam.transform.forward, clipCenter - this.rayColPoint[currentRay]);
                 this.adjustedDistance = this.currentDistance - (this.adjustedDistance + this.collisionCushion);
                 this.adjustedDistance = Mathf.Clamp(this.adjustedDistance, 0, this.cameraMaxDistance);
-            }
-            else
-            {
+            } else {
                 this.adjustedDistance = this.currentDistance;
             }
         }
 
-        void CameraInputs()
-        {
-            if (this.cameraState != CameraState.CameraNone)
-            {
+        void CameraInputs() {
+            if (this.cameraState != CameraState.CameraNone) {
 
-                if (!this.camYAdjust && (this.cameraMoveState == CameraMoveState.AlwaysAdjust || this.cameraMoveState == CameraMoveState.OnlyWhileMoving))
-                {
+                if (!this.camYAdjust && (this.cameraMoveState == CameraMoveState.AlwaysAdjust || this.cameraMoveState == CameraMoveState.OnlyWhileMoving)) {
                     this.camYAdjust = true;
                 }
-                if (this.cameraState == CameraState.CameraRotate)
-                {
+                if (this.cameraState == CameraState.CameraRotate) {
                     if (this.cameraMoveState != CameraMoveState.NeverAdjust) this.camXAdjust = true;
                     this.player.steer = false;
                     this.currentPan += Input.GetAxis("Mouse X") * this.cameraSpeed;
                 }
-                else if (this.cameraState == CameraState.CameraSteer || this.cameraState == CameraState.CameraRun)
-                {
-                    if (!this.player.steer)
-                    {
+                else if (this.cameraState == CameraState.CameraSteer || this.cameraState == CameraState.CameraRun) {
+                    if (!this.player.steer) {
                         this.player.transform.eulerAngles = new Vector3(this.player.transform.eulerAngles.x, transform.eulerAngles.y, this.player.transform.eulerAngles.z);
                         this.player.steer = true;
                     }
@@ -263,9 +236,7 @@ namespace BaseCameraControlsWOW
 
                 this.currentTilt -= Input.GetAxis("Mouse Y") * this.cameraSpeed;
                 this.currentTilt = Mathf.Clamp(this.currentTilt, -this.cameraMaxTilt, this.cameraMaxTilt);
-            }
-            else
-            {
+            } else {
                 this.player.steer = false;
             }
 
@@ -273,8 +244,7 @@ namespace BaseCameraControlsWOW
             this.currentDistance = Mathf.Clamp(this.currentDistance, 0, this.cameraMaxDistance);
         }
 
-        void CameraHorizontalAdjust()
-        {
+        void CameraHorizontalAdjust() {
             if (this.cameraState != CameraState.CameraRotate)
             {
                 if (this.camXAdjust)
