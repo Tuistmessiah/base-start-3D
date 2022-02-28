@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Black Hole Explosion
   _prefabName: 
-  _prefab: {fileID: 8810183429255659358, guid: c980e088efe300b449c766bf06fc8574, type: 3}
+  _prefab: {fileID: 6529394832022237993, guid: 9f3a44e95ee46764192c7cbee3f634a0, type: 3}
   _isTargetBound: 0
-  _target: {fileID: 0}
   _zDirection: {x: 0, y: 1, z: 0}
   _yDirection: {x: 0, y: 1, z: 0}
   _sizeRadius: 5

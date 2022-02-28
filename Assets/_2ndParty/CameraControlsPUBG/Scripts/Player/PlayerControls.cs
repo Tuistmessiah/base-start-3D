@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BaseCameraControlsWOW
+namespace CameraControlPUBG
 {
 
     // TODO: bug - when starting strafing, character slightly moves forward
@@ -22,7 +22,7 @@ namespace BaseCameraControlsWOW
         // > Status/Inputs
         Vector2 inputs;
         bool isRunning = true, isJumping = false, jumpInput = false;
-        [HideInInspector] public bool steer, autoRun; // Set by another script
+        [HideInInspector] public bool steer; // Set by another script
 
         // > Speed/Acceleration
         public float baseSpeed = 1f, runSpeedMultiplier = 4f, rotateSpeed = 2f;
@@ -139,13 +139,10 @@ namespace BaseCameraControlsWOW
         {
             // Toggle Input
             if (controls.walkRun.IsDownBind()) this.isRunning = !this.isRunning;
-            if (controls.autoRun.IsDownBind()) this.autoRun = !this.autoRun;
             this.jumpInput = controls.jump.IsPressBind();
 
             // Move Input
             this.inputs.y = AxisInputValue(controls.forwards.IsPressBind(), controls.backwards.IsPressBind());
-            if (this.inputs.y != 0 && !this.mainCam.autoRunReset) this.autoRun = false;
-            if (this.autoRun) this.inputs.y += 1;
             this.inputs.x = AxisInputValue(controls.strageRight.IsPressBind(), controls.strafeLeft.IsPressBind());
             if (this.steer)
             {

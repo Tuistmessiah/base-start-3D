@@ -20,8 +20,5 @@ public class Test : MonoBehaviour {
         Prisms.DrawCube(new Vector3(10,5,5), 2f, Color.black);
         Prisms.Draw3DRange(new Vector3(10,10,5), 5f, Color.yellow);
         Prisms.DrawCubeWireframe(new Vector3(-10,10,-5), 5f, Color.green);
-
-        string[] names = {"Matt", "Joanne", "Robert"};
-        Console.Log(names, "2");
     }
 }

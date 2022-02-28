@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BaseCameraControlsWOW
+namespace CameraControlPUBG
 {
     /* Camera Controller
     * @obs This script finds "PlayerControls" script in scene and changes it state actively
@@ -306,12 +306,10 @@ namespace BaseCameraControlsWOW
 
             if (this.cameraState == CameraState.CameraRun)
             {
-                this.player.autoRun = true;
                 this.autoRunReset = true;
             }
             else if (this.autoRunReset)
             {
-                this.player.autoRun = false;
                 this.autoRunReset = false;
             }
 
